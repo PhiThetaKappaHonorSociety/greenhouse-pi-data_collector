@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+        <listEntry value="/greenhouse-pi-data_collector/src/main/java/com/thomasrokicki/sensor_data_collector/main/SensorDataCollector.java"/>
+    </listAttribute>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+        <listEntry value="1"/>
+    </listAttribute>
+    <mapAttribute key="org.eclipse.debug.core.environmentVariables">
+        <mapEntry key="ptk_greenhouse.api_key" value="123456789"/>
+        <mapEntry key="ptk_greenhouse.api_url" value="https://api.greenhouse.thomasrokicki.com/api/v1/sensor-data"/>
+        <mapEntry key="ptk_greenhouse.bluetooth_mac" value="0000000000"/>
+        <mapEntry key="ptk_greenhouse.sensor_uuid" value="000-000-000"/>
+    </mapAttribute>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE" value="true"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_SHOW_CODEDETAILS_IN_EXCEPTION_MESSAGES" value="true"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
+    <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.thomasrokicki.sensor_data_collector.main.SensorDataCollector"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="greenhouse-pi-data_collector"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="greenhouse-pi-data_collector"/>
+    <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
+</launchConfiguration>
