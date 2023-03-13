@@ -21,12 +21,7 @@ docker build --build-arg JAR_FILE=target/sensor_data_collector-VERSION-jar-with-
 ```
 
 ```
-docker buildx build --build-arg JAR_FILE=target/sensor_data_collector-1.0.2-jar-with-dependencies.jar --platform linux/amd64,linux/arm64 -t tcrokicki/ptk-greenhouse-app-sensor_data_collector:v1.0.2.12 ~/Documents/git/greenhouse-pi-data_collector/
-
-```
-
-```
-docker buildx build --build-arg JAR_FILE=target/sensor_data_collector-1.0.2-jar-with-dependencies.jar -t tcrokicki/ptk-greenhouse-app-sensor_data_collector:v1.0.2.12 ./
+docker build --build-arg JAR_FILE=target/sensor_data_collector-1.0.3-jar-with-dependencies.jar -t tcrokicki/ptk-greenhouse-app-sensor_data_collector:v1.0.3.1 .
 ```
 
 4. Push to Docker Hub when ready for release
