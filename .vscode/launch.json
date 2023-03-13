@@ -1,0 +1,20 @@
+{
+    "configurations": [
+      {
+        "type": "java",
+        "name": "Run SensorDataCollector",
+        "request": "launch",
+        "cwd": "${workspaceFolder}",
+        "console": "internalConsole",
+        "mainClass": "com.thomasrokicki.sensor_data_collector.main.SensorDataCollector",
+        "projectName": "sensor_data_collector",
+        "args": "",
+        "env": {
+          "ptk_greenhouse.api_key": "https://api.greenhouse.thomasrokicki.com/api/v1/sensor-data",
+          "ptk_greenhouse.api_url": "thomasrokicki.com",
+          "ptk_greenhouse.bluetooth_mac": "012345",
+          "ptk_greenhouse.sensor_uuid": "0000-1111"
+        }
+      }
+    ]
+  }
