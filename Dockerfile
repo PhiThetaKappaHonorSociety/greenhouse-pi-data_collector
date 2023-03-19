@@ -1,4 +1,6 @@
-FROM --platform=linux/amd64 openjdk:12.0.2
+#FROM --platform=linux/amd64 openjdk:12.0.2
+#FROM --platform=$BUILDPLATFORM openjdk:12.0.2
+FROM openjdk:12.0.2
 
 VOLUME /tmp
 VOLUME /target
