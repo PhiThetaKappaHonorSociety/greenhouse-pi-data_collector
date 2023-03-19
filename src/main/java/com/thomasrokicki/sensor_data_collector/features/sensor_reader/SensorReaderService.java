@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.invoke.MethodHandles;
+import java.nio.charset.StandardCharsets;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
@@ -16,6 +17,10 @@ import javax.microedition.io.StreamConnection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.sputnikdev.bluetooth.URL;
+import org.sputnikdev.bluetooth.manager.BluetoothManager;
+import org.sputnikdev.bluetooth.manager.CharacteristicGovernor;
+import org.sputnikdev.bluetooth.manager.impl.BluetoothManagerBuilder;
 
 import com.thomasrokicki.sensor_data_collector.features.sensor_data_message.SensorDataMessageSample;
 
@@ -25,6 +30,14 @@ public class SensorReaderService {
 
 	private String sensorMacId;
 
+	 private final BluetoothManager bluetoothManager = new BluetoothManagerBuilder()
+	            .withTinyBTransport(true)
+	            .withBlueGigaTransport("^*.$")
+	            .withIgnoreTransportInitErrors(true)
+	            .withDiscovering(true)
+	            .withRediscover(true)
+	            .build();
+	
 	public SensorReaderService(String sensorMacId) {
 		this.sensorMacId = sensorMacId;
 	}
@@ -32,6 +45,11 @@ public class SensorReaderService {
 	public SensorDataMessageSample readSensor() {
 		final String methodLabel = "In readSensor(): ";
 
+		bluetoothManager.addDeviceDiscoveryListener(discoveredDevice -> {
+            System.out.println(String.format("Discovered: %s [%s]", discoveredDevice.getName(),
+                    discoveredDevice.getURL().getDeviceAddress()));
+        });
+		
 		String sensorValue = read();
 		if (sensorValue == null) {
 			logger.error(methodLabel + "Could not get sensor value.");
@@ -50,28 +68,18 @@ public class SensorReaderService {
 		
 		String dataPointValue = null;
 		try {
-			StreamConnection streamConnection = (StreamConnection) Connector.open(sensorMacId);
-			OutputStream os = streamConnection.openOutputStream();
-			InputStream is = streamConnection.openInputStream();
-
-			PrintWriter pWriter = new PrintWriter(new OutputStreamWriter(os));
-			pWriter.write("ready\n\n");
-			pWriter.flush();
-			pWriter.close();
-			Thread.sleep(200);
-
-			BufferedReader bReader = new BufferedReader(new InputStreamReader(is));
-			dataPointValue = bReader.readLine();
+			dataPointValue = new BluetoothManagerBuilder()
+            .withTinyBTransport(true)
+//            .withBlueGigaTransport("^*.$")
+            .build()
+            .getCharacteristicGovernor(new URL(sensorMacId), true)
+            .whenReady(CharacteristicGovernor::read)
+            .thenAccept(dataBytes -> {
+            	return new String(dataBytes, StandardCharsets.UTF_8);
+            }).get();
+			
 			logger.debug(methodLabel + "Read value from sensor: " + dataPointValue);
 
-			bReader.close();
-			is.close();
-			os.close();
-			streamConnection.close();
-
-		} catch (ConnectionNotFoundException e) {
-			logger.error(methodLabel + "Could not establish connection to sensor: " + sensorMacId);
-			return null;
 		} catch (Exception e) {
 			logger.error(methodLabel + "Could not read from sensor: " + sensorMacId, e);
 			return null;
